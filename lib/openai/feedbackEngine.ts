@@ -142,7 +142,7 @@ Evaluate this student's performance and provide feedback in the JSON format spec
   try {
     const openai = getOpenAIClient()
     const completion = await openai.chat.completions.create({
-      model: 'gpt-4',
+      model: 'gpt-4-turbo', // Use gpt-4-turbo which supports json_object response format
       messages: [
         { role: 'system', content: systemPrompt },
         { role: 'user', content: userPrompt },
