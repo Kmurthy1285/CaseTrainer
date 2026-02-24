@@ -1,0 +1,77 @@
+{
+  "id": "example-case-1",
+  "title": "Chest Pain in a 45-Year-Old Male",
+  "specialty": "Cardiology",
+  "difficulty": "intermediate",
+  "initial_presentation": {
+    "age": 45,
+    "sex": "Male",
+    "chief_complaint": "Chest pain for 2 hours",
+    "vitals": "BP 140/90, HR 95, RR 18, Temp 98.6°F, O2 Sat 98%",
+    "summary": "A 45-year-old male presents with acute onset chest pain. Pain is substernal, pressure-like, started 2 hours ago. Associated with mild dyspnea and diaphoresis."
+  },
+  "full_case": {
+    "history": "Patient reports chest pain that started suddenly while at rest. Pain is 7/10, substernal, radiates to left arm. No relief with rest. History of hypertension, no known cardiac disease. Family history of early MI in father at age 50. Smokes 1 pack/day for 20 years.",
+    "exam": "Appears anxious but comfortable. No JVD, no peripheral edema. Heart: Regular rhythm, no murmurs. Lungs: Clear bilaterally. Abdomen: Soft, non-tender.",
+    "labs": "Troponin I: 0.8 ng/mL (elevated), CK-MB: 8.2 ng/mL (elevated), BNP: 450 pg/mL (elevated), D-dimer: 0.3 (normal), CBC: WNL, BMP: WNL",
+    "imaging": "ECG: ST elevation in leads II, III, aVF. Q waves in inferior leads. CXR: Normal heart size, clear lungs."
+  },
+  "gold_standard": {
+    "problem_representation": "45-year-old male with acute onset substernal chest pain, elevated cardiac enzymes, and ST elevation in inferior leads. High-risk features include smoking, family history, and typical presentation for acute MI.",
+    "final_diagnosis": "ST-Elevation Myocardial Infarction (STEMI) - Inferior Wall",
+    "management": "1. Immediate activation of cardiac catheterization lab for primary PCI. 2. Dual antiplatelet therapy (aspirin 325mg, clopidogrel 600mg loading). 3. Atorvastatin 80mg. 4. Beta-blocker if no contraindications. 5. Monitor for complications (arrhythmias, heart failure). 6. Smoking cessation counseling."
+  },
+  "differential": [
+    {
+      "name": "ST-Elevation Myocardial Infarction (STEMI)",
+      "rank": 1,
+      "why_fits": "Classic presentation: acute chest pain, elevated troponin, ST elevation in inferior leads, high-risk factors (smoking, family history)",
+      "why_not": "None - this is the diagnosis",
+      "life_threatening": true
+    },
+    {
+      "name": "Unstable Angina / NSTEMI",
+      "rank": 2,
+      "why_fits": "Could present similarly with chest pain and elevated enzymes",
+      "why_not": "ST elevation on ECG is diagnostic for STEMI, not NSTEMI",
+      "life_threatening": true
+    },
+    {
+      "name": "Aortic Dissection",
+      "rank": 3,
+      "why_fits": "Can present with chest pain and hypertension",
+      "why_not": "No pulse deficits, no widened mediastinum on CXR, ECG pattern is classic for MI",
+      "life_threatening": true
+    }
+  ],
+  "required_actions": {
+    "must_not_miss": [
+      "Activate cardiac catheterization lab immediately",
+      "Administer dual antiplatelet therapy",
+      "Obtain 12-lead ECG"
+    ],
+    "ideal": [
+      "Check troponin trend",
+      "Assess for complications (arrhythmias, heart failure)",
+      "Smoking cessation counseling",
+      "Lipid panel and initiate statin"
+    ]
+  },
+  "common_mistakes": [
+    "Delaying cardiac catheterization activation",
+    "Not recognizing ST elevation as STEMI",
+    "Missing the need for dual antiplatelet therapy",
+    "Not addressing modifiable risk factors (smoking)"
+  ],
+  "cognitive_bias_traps": [
+    "Anchoring bias: Focusing only on chest pain without considering ECG findings",
+    "Premature closure: Assuming it's just anxiety without checking cardiac enzymes",
+    "Availability bias: Over-relying on normal vitals to rule out serious disease"
+  ],
+  "teaching_points": [
+    "STEMI is a time-sensitive diagnosis requiring immediate reperfusion therapy (PCI or thrombolytics).",
+    "ST elevation in leads II, III, aVF indicates inferior wall MI, which can be associated with right ventricular involvement.",
+    "Dual antiplatelet therapy is essential in acute coronary syndrome to prevent stent thrombosis.",
+    "Smoking is a major modifiable risk factor for coronary artery disease and should be addressed in all patients."
+  ]
+}

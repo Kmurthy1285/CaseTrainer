@@ -1,0 +1,72 @@
+{
+  "id": "nejm_2026_01_closing_the_gap",
+  "title": "Fever, weight loss, and recurrent infections in a young woman",
+  "specialty": "Immunology / Infectious Disease",
+  "difficulty": "advanced",
+  "initial_presentation": {
+    "age": 31,
+    "sex": "female",
+    "chief_complaint": "Fever, sinus symptoms, cough, nausea, vomiting",
+    "vitals": "Fever to 39.5C, tachycardia",
+    "summary": "10-day febrile illness with months of night sweats, weight loss, and recurrent URI symptoms"
+  },
+  "full_case": {
+    "history": "5 months of recurrent URI symptoms, night sweats, weight loss, prior ITP in adolescence",
+    "exam": "cervical lymphadenopathy, hepatosplenomegaly",
+    "labs": "pancytopenia, low total protein, normal albumin",
+    "imaging": "diffuse lymphadenopathy and granulomas"
+  },
+  "gold_standard": {
+    "problem_representation": "31-year-old woman with recurrent infections, lymphadenopathy, weight loss, and hypogammaglobulinemia concerning for primary immunodeficiency",
+    "final_diagnosis": "Common Variable Immunodeficiency",
+    "management": "IVIG therapy and immunology follow-up"
+  },
+  "differential": [
+    {
+      "name": "Common Variable Immunodeficiency",
+      "rank": 1,
+      "why_fits": "recurrent infections, low gamma globulins, granulomatous disease",
+      "why_not": "age of onset later than typical but still possible",
+      "life_threatening": true
+    },
+    {
+      "name": "Lymphoma",
+      "rank": 2,
+      "why_fits": "B symptoms, lymphadenopathy",
+      "why_not": "biopsy not consistent",
+      "life_threatening": true
+    },
+    {
+      "name": "Disseminated fungal infection",
+      "rank": 3,
+      "why_fits": "constitutional symptoms and travel exposure",
+      "why_not": "lab pattern and chronicity less consistent",
+      "life_threatening": true
+    }
+  ],
+  "required_actions": {
+    "must_not_miss": [
+      "check immunoglobulin levels",
+      "evaluate for lymphoma",
+      "biopsy lymph node"
+    ],
+    "ideal": [
+      "B-cell subset analysis",
+      "immunology referral"
+    ]
+  },
+  "common_mistakes": [
+    "anchoring on lymphoma",
+    "ignoring recurrent infection history",
+    "missing low globulin gap"
+  ],
+  "cognitive_bias_traps": [
+    "anchoring bias",
+    "availability bias toward malignancy"
+  ],
+  "teaching_points": [
+    "recurrent infections + low globulin gap suggests immunodeficiency",
+    "granulomas are not always sarcoidosis",
+    "constitutional symptoms do not always mean malignancy"
+  ]
+}
