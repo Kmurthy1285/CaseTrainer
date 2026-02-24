@@ -110,48 +110,45 @@ See `cases/example-case.json` for the expected case JSON structure. Each case sh
 
 ## Deployment
 
-### Deploy to Vercel (Recommended - Easiest)
+### Deploy to Vercel via GitHub (Recommended)
 
-1. **Push your code to GitHub**
+1. **Create a GitHub Repository**
+   - Go to [github.com/new](https://github.com/new)
+   - Name it (e.g., `case-trainer`)
+   - Don't initialize with README (we already have one)
+   - Click "Create repository"
+
+2. **Push your code to GitHub**
    ```bash
-   git init
-   git add .
-   git commit -m "Initial commit"
-   git remote add origin <your-github-repo-url>
+   git remote add origin https://github.com/YOUR_USERNAME/case-trainer.git
    git push -u origin main
    ```
+   (Replace `YOUR_USERNAME` with your GitHub username)
 
-2. **Deploy to Vercel**
+3. **Connect to Vercel**
    - Go to [vercel.com](https://vercel.com)
    - Sign up/login with GitHub
-   - Click "New Project"
+   - Click "Add New..." → "Project"
    - Import your GitHub repository
-   - Add environment variables:
-     - `NEXT_PUBLIC_SUPABASE_URL`
-     - `NEXT_PUBLIC_SUPABASE_ANON_KEY`
-     - `SUPABASE_SERVICE_ROLE_KEY`
-     - `OPENAI_API_KEY`
+   - Vercel will auto-detect Next.js settings
+   - Add environment variables in the "Environment Variables" section:
+     - `NEXT_PUBLIC_SUPABASE_URL` = your Supabase URL
+     - `NEXT_PUBLIC_SUPABASE_ANON_KEY` = your Supabase anon key
+     - `SUPABASE_SERVICE_ROLE_KEY` = your service role key
+     - `OPENAI_API_KEY` = your OpenAI API key
    - Click "Deploy"
 
-3. **Your app will be live at**: `https://your-project.vercel.app`
-
-### Alternative: Deploy to Netlify
-
-1. Push to GitHub (same as above)
-2. Go to [netlify.com](https://netlify.com)
-3. Import from GitHub
-4. Build settings:
-   - Build command: `npm run build`
-   - Publish directory: `.next`
-5. Add environment variables (same as Vercel)
-6. Deploy
+4. **Automatic Deployments**
+   - Every push to `main` branch will automatically deploy
+   - You can preview deployments from pull requests
+   - Your app will be live at: `https://your-project.vercel.app`
 
 ### Before Deploying
 
 - Make sure your Supabase project is set up and migrations are run
+- Import your cases (run `npm run import-cases` locally or via Supabase dashboard)
 - Ensure RLS policies are configured correctly
 - Test locally that everything works
-- Consider setting up a custom domain (optional)
 
 ## License
 
