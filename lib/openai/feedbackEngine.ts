@@ -4,9 +4,15 @@ import { UserAnswers } from '@/lib/types/Attempt'
 import { Feedback } from '@/lib/types/Feedback'
 import { z } from 'zod'
 
-const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY,
-})
+function getOpenAIClient() {
+  const apiKey = process.env.OPENAI_API_KEY
+  if (!apiKey) {
+    throw new Error('OPENAI_API_KEY environment variable is required')
+  }
+  return new OpenAI({
+    apiKey,
+  })
+}
 
 // Schema for validating OpenAI response
 const FeedbackSchema = z.object({
@@ -134,6 +140,7 @@ ${userAnswers.step5_management}
 Evaluate this student's performance and provide feedback in the JSON format specified.`
 
   try {
+    const openai = getOpenAIClient()
     const completion = await openai.chat.completions.create({
       model: 'gpt-4',
       messages: [
