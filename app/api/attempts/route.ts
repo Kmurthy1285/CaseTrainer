@@ -40,24 +40,106 @@ export async function POST(request: Request) {
     // Check authentication
     const {
       data: { user },
+      error: authError,
     } = await supabase.auth.getUser()
+
+    if (authError) {
+      console.error('Auth error:', authError)
+      return NextResponse.json(
+        { error: 'Authentication failed', details: authError.message },
+        { status: 401 }
+      )
+    }
 
     if (!user) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
 
     // Parse and validate request body
-    const body = await request.json()
-    const validated = AttemptRequestSchema.parse(body)
+    let body
+    try {
+      body = await request.json()
+    } catch (parseError) {
+      console.error('JSON parse error:', parseError)
+      return NextResponse.json(
+        { error: 'Invalid JSON in request body' },
+        { status: 400 }
+      )
+    }
+
+    let validated
+    try {
+      validated = AttemptRequestSchema.parse(body)
+    } catch (validationError) {
+      if (validationError instanceof z.ZodError) {
+        console.error('Validation error:', validationError.errors)
+        return NextResponse.json(
+          { error: 'Invalid request data', details: validationError.errors },
+          { status: 400 }
+        )
+      }
+      throw validationError
+    }
 
     // Get case data
-    const caseData = await getCaseById(validated.case_id)
+    let caseData
+    try {
+      caseData = await getCaseById(validated.case_id)
+      if (!caseData) {
+        return NextResponse.json(
+          { error: 'Case not found' },
+          { status: 404 }
+        )
+      }
+    } catch (caseError) {
+      console.error('Error fetching case:', caseError)
+      return NextResponse.json(
+        { error: 'Failed to fetch case', details: caseError instanceof Error ? caseError.message : 'Unknown error' },
+        { status: 500 }
+      )
+    }
 
     // Generate feedback using AI
-    const feedback = await generateFeedback(caseData, validated.answers as UserAnswers)
+    let feedback
+    try {
+      feedback = await generateFeedback(caseData, validated.answers as UserAnswers)
+    } catch (feedbackError) {
+      console.error('Error generating feedback:', feedbackError)
+      const errorMessage = feedbackError instanceof Error ? feedbackError.message : 'Unknown error'
+      
+      // Check if it's an OpenAI API key issue
+      if (errorMessage.includes('OPENAI_API_KEY') || errorMessage.includes('apiKey')) {
+        return NextResponse.json(
+          { error: 'OpenAI API key not configured. Please check environment variables.' },
+          { status: 500 }
+        )
+      }
+      
+      return NextResponse.json(
+        { error: 'Failed to generate feedback', details: errorMessage },
+        { status: 500 }
+      )
+    }
 
     // Save attempt to database
-    const adminSupabase = createAdminClient()
+    let adminSupabase
+    try {
+      adminSupabase = createAdminClient()
+    } catch (adminError) {
+      console.error('Error creating admin client:', adminError)
+      const errorMessage = adminError instanceof Error ? adminError.message : 'Unknown error'
+      if (errorMessage.includes('SUPABASE_SERVICE_ROLE_KEY') || errorMessage.includes('service_role')) {
+        return NextResponse.json(
+          { error: 'Database configuration error. Please check SUPABASE_SERVICE_ROLE_KEY environment variable.' },
+          { status: 500 }
+        )
+      }
+      return NextResponse.json(
+        { error: 'Database connection failed', details: errorMessage },
+        { status: 500 }
+      )
+    }
+
     const { data: attempt, error: dbError } = await adminSupabase
       .from('attempts')
       .insert({
@@ -72,7 +154,14 @@ export async function POST(request: Request) {
     if (dbError) {
       console.error('Database error:', dbError)
       return NextResponse.json(
-        { error: 'Failed to save attempt' },
+        { error: 'Failed to save attempt', details: dbError.message },
+        { status: 500 }
+      )
+    }
+
+    if (!attempt) {
+      return NextResponse.json(
+        { error: 'Failed to save attempt - no data returned' },
         { status: 500 }
       )
     }
@@ -82,7 +171,7 @@ export async function POST(request: Request) {
       feedback,
     })
   } catch (error) {
-    console.error('Error processing attempt:', error)
+    console.error('Unexpected error processing attempt:', error)
     
     if (error instanceof z.ZodError) {
       return NextResponse.json(
@@ -91,8 +180,9 @@ export async function POST(request: Request) {
       )
     }
 
+    const errorMessage = error instanceof Error ? error.message : 'Unknown error'
     return NextResponse.json(
-      { error: 'Failed to process attempt' },
+      { error: 'Failed to process attempt', details: errorMessage },
       { status: 500 }
     )
   }
